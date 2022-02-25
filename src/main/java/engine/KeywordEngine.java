@@ -27,6 +27,7 @@ import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 
 import base.Base;
+import excelUtils.ExcelUtil;
 import utility.Helper;
 
 public class KeywordEngine 
@@ -197,6 +198,159 @@ public class KeywordEngine
 
 	
     }	
+	
+	
+	//===============================Mutlitests in one sheet code start===============================================
+	
+	
+	
+	
+	public void startExecution(String sheetName,int startRow,int endRow)
+	
+	{
+		
+		String LocatorType=null;
+		
+		String LocatorValue=null;
+	
+		//sheet=workbook.getSheet(sheetName);
+		int k=0;
+		System.out.println("Getting row data");
+		for(int i=startRow;i<endRow+1;i++)
+		{    ExcelUtil et=new ExcelUtil();
+			// System.out.println(sheet.getRow(i+1).getCell(k+4));
+			 LocatorType=et.getCellValue(sheetName,(k+4),i);
+			 System.out.println("LocatorType is "+LocatorType);
+			 LocatorValue=et.getCellValue(sheetName,(k+5),i);
+			 System.out.println("LocatorValue is "+LocatorValue);
+			 
+			 //String actionKeyword=sheet.getRow(i+1).getCell(k+6).toString().trim();
+			 String actionKeyword=et.getCellValue(sheetName,(k+6), (i));
+			 System.out.println("ActionKeyword is "+actionKeyword);
+			 //String value=sheet.getRow(i+1).getCell(k+7).toString().trim();
+			 String value=et.getCellValue(sheetName, (k+7), (i));
+			 System.out.println("Value is "+value);
+			 
+			 
+			 
+			switch (actionKeyword) 
+			{
+			case "openBrowser":
+				base=new Base();
+				prop=base.init_properties();
+				if(value.isEmpty()||value.equals("NA"))
+				{
+					driver=base.init_driver(prop.getProperty("browserName"));
+				}
+				else
+				{
+					driver=base.init_driver(value);
+				}
+				System.out.println("Browser Launched");
+				break;
+			case "getUrl":
+				if(value.isEmpty()||value.equals("NA"))
+				{
+					driver.get(prop.getProperty("EnterURL"));
+				}
+				else
+				{
+					System.out.println("getting Url "+ value);
+					/*try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}*/
+					driver.get(value);
+				}
+				System.out.println("URL entered");
+				break;
+			case "quit"	:
+				driver.quit();
+				System.out.println("Browser closed");
+		        break;
+			case "checkTitle":
+				String title=driver.getTitle();
+				Assert.assertEquals(title, value);	
+		        break;
+			case "wait":
+				  try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e1)
+				  {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}				
+				  break;
+	        
+			default:
+				break;
+			}
+			
+			switch (LocatorType) {
+			case "id":
+				 element=driver.findElement(By.id(LocatorValue));
+				if(actionKeyword.equalsIgnoreCase("sendKeys"))
+				{   element.clear();
+					element.sendKeys(value);
+				}
+				else if(actionKeyword.equalsIgnoreCase("Click"))
+				{
+					element.click();
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				LocatorType=null;
+				
+				break;
+				
+			case "linkText":
+				 element=driver.findElement(By.linkText(LocatorValue));
+				 element.click();
+				 LocatorType=null;
+				 
+			case "xpath":
+				 element=driver.findElement(By.xpath(LocatorValue));
+				if(actionKeyword.equalsIgnoreCase("sendKeys"))
+				{   element.clear();
+					element.sendKeys(value);
+				}
+				else if(actionKeyword.equalsIgnoreCase("Click"))
+				{
+					element.click();
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
+				else if(actionKeyword.equalsIgnoreCase("verifyText"))
+				{
+					String text=element.getText();
+					Assert.assertEquals(text, value);
+				}
+				LocatorType=null;
+				break;
+
+		default:
+			break;
+			}
+		}
+		
+		
+		
+		
+		
+	}
+	
+	//==================================MultiTests in one sheet end=======================================
 	
 	public static String captureScreenshot() 
 	{

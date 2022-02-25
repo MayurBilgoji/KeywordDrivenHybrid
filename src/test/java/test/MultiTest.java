@@ -96,6 +96,28 @@ public class MultiTest
 	 }
 	 
 	 
+	 
+	 @Test
+	 public void tc_1()
+	 {   String TC_1;
+		 ExecuteTest(TC_1);
+		 for(int i=0;i<lastrow;i++)
+		 {
+			 if(row.equals(TC_1)
+			  int row=i;
+			  break;
+		 }
+		 String TestCase=getcellValueat(i)
+				 for(int k=row;k<lastrow;k++)
+				 {
+					 if(row.equals(TC_1)||row.equlas null)
+						 end row=k-1;
+						 
+				 }
+		 startExecution(Testcase,row,end);
+	 }
+	 
+	  
 	 @AfterMethod
 	 public void tearDown()
 	 {

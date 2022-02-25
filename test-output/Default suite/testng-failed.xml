@@ -3,12 +3,14 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="test.MultiTest">
+      <class name="test.Tests">
         <methods>
-          <include name="tearDown"/>
-          <include name="NewTest"/>
+          <include name="TearDown"/>
+          <include name="tc_3"/>
+          <include name="setUp"/>
+          <include name="tc_2"/>
         </methods>
-      </class> <!-- test.MultiTest -->
+      </class> <!-- test.Tests -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

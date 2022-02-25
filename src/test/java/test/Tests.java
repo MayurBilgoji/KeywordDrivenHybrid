@@ -24,7 +24,8 @@ import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 
 import base.Base;
 import engine.KeywordEngine;
-
+import excelUtils.ExcelUtil;
+import mutltitests.MultiCases;
 import utility.Helper;
 
 public class Tests
@@ -44,10 +45,11 @@ public class Tests
 	 ExtentHtmlReporter extent=new ExtentHtmlReporter(new File(System.getProperty("user.dir")+"/Reports/JPG"+Helper.getCurrentDateTime()+".html"));
 	 report=new ExtentReports();
 	 report.attachReporter(extent);
+
 	}
 	
   
-	@Test (dataProvider="ProvideDataToTest")
+	/*@Test (dataProvider="ProvideDataToTest")
 	 public void TestExecutor(String sheetName) throws InterruptedException
 	 {  
 		 logger=report.createTest(sheetName+"Testsssssssssss validate");
@@ -69,6 +71,62 @@ public class Tests
 			    };
 			return obj;
 	  }
+	 */
+	 
+	 
+	 @Test
+	 public void tc_1()
+	 {  
+		 String testcase="TC_1";
+		 logger=report.createTest(testcase);
+	     String sheetName="TestSheet1";
+	     ExcelUtil eu=new ExcelUtil();
+		 MultiCases mcs=new MultiCases();
+		 String testname=mcs.ExecuteTest(testcase,sheetName); 
+		 logger.info("Test executed success "+testname);
+	 }
+	 
+	 @Test
+	 public void tc_2()
+	 {  
+		 String testcase="TC_2";
+		 logger=report.createTest(testcase);
+	     String sheetName="TestSheet1";
+		 MultiCases mcs=new MultiCases();
+		 String testname= mcs.ExecuteTest(testcase,sheetName); 
+		 logger.info("Test executed success "+testname);
+
+	 }
+	 
+	 @Test
+	 public void tc_3()
+	 {  
+		 String testcase="TC_3";
+		 logger=report.createTest(testcase);
+	     String sheetName="TestSheet1";
+		 MultiCases mcs=new MultiCases();
+		 String testname= mcs.ExecuteTest(testcase,sheetName); 
+		 logger.info("Test executed success "+testname);
+
+	 }
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
 	 
 	 @AfterMethod
 	 public void TearDown(ITestResult result) throws IOException
@@ -88,7 +146,7 @@ public class Tests
 		 }
 		 
 		 report.flush();
-		 driver.close();
+		// driver.close();
 		// KeywordEngine.closeBrowser();
 	 }
 	 
